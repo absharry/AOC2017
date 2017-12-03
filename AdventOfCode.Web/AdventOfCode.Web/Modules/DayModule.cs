@@ -13,6 +13,7 @@ namespace AdventOfCode.Web.Modules
         {
             this.Get["/1/"] = x => this.GetDay1();
             this.Get["/2/"] = x => this.GetDay2();
+            this.Get["/3/"] = x => this.GetDay3();
         }
 
         public dynamic GetDay1()
@@ -112,6 +113,143 @@ namespace AdventOfCode.Web.Modules
             };
 
             return this.View["/days/one"].WithModel(returnModel);
+        }
+
+        public dynamic GetDay3()
+        {
+            var input = 312051;
+            var multiplier = 3;
+            var ring = 0;
+
+            while( ring == 0)
+            {
+                if(input < (multiplier * multiplier))
+                {
+                    ring = (multiplier + 1) / 2;
+                    break;
+                }
+
+                multiplier += 2; 
+            }
+
+            var center = new int[]{ ring, ring };
+            var inputLocation = new int[2];
+
+            var bottomRight = multiplier * multiplier;
+            var bottomLeft = bottomRight - (multiplier - 1);
+            var topLeft = bottomLeft - (multiplier - 1);
+            var topRight = topLeft - (multiplier - 1);
+
+            if (bottomRight - input < multiplier - 1)
+            {
+                var difference = bottomRight - input;
+                inputLocation[0] = multiplier - difference; // position along the row
+                inputLocation[1] = 1; // height from the bottom
+            }
+            else if(input < bottomLeft)
+            {
+                var difference = input - topLeft;
+                inputLocation[0] = 1; // position along the row
+                inputLocation[1] = difference; // height from the top
+            }
+            else if(input > topRight)
+            {
+                var difference = input - topRight;
+                inputLocation[0] = multiplier - difference; // position along the row
+                inputLocation[1] = 1; // height from the top
+            }
+            else
+            {
+                var difference = topRight - input;
+                inputLocation[0] = multiplier; // position along the row
+                inputLocation[1] = multiplier - difference; // height from the top
+            }
+
+            var distance1 = Math.Abs(center[0] - inputLocation[0]) + Math.Abs(center[1] - inputLocation[1]);
+
+            var array = new int[100, 100];
+            array[50, 50] = 1;
+
+            var coordinates = new int[] { 51, 50 };
+
+            var xDirection = 0;
+            var yDirection = 1;
+            var steps = 1;
+            var row = 2;
+
+            for (int i = 0; i < 10000; i++)
+            {
+                if(array[coordinates[0], coordinates[1]] != 0)
+                {
+                    var somethingsGoneWrong = true;
+                }
+
+                var newRow = false;
+                array[coordinates[0], coordinates[1]] =
+                    array[coordinates[0] + 1, coordinates[1]] +
+                    array[coordinates[0] + 1, coordinates[1] + 1] +
+                    array[coordinates[0], coordinates[1] + 1] +
+                    array[coordinates[0] - 1, coordinates[1] + 1] +
+                    array[coordinates[0] - 1, coordinates[1]] +
+                    array[coordinates[0] - 1, coordinates[1] - 1] +
+                    array[coordinates[0], coordinates[1] - 1] +
+                    array[coordinates[0] + 1, coordinates[1] - 1];
+
+                if (array[coordinates[0], coordinates[1]] > input)
+                {
+                    break;
+                }
+
+                if(xDirection != 0 && steps == (row * 2) - 2)
+                {
+                    if(xDirection == -1) // top left turning point
+                    {
+                        xDirection = 0;
+                        yDirection = -1;
+                        steps = 0;
+                    }
+                    else // bottom right turning point (continue right onto next row)
+                    {
+                        row += 1;
+                        steps = 0; // starting at bottom right
+                        xDirection = 1;
+                        yDirection = 0;
+                        newRow = true;
+                    }
+                }else if(yDirection != 0 && steps == (row * 2) - 2)
+                {
+                    if(yDirection == 1) // top right turning point
+                    {
+                        yDirection = 0;
+                        xDirection = -1;
+                        steps = 0;
+                    }
+                    else // bottom left turning point
+                    {
+                        yDirection = 0;
+                        xDirection = 1;
+                        steps = 0;
+                    }
+                }
+
+                steps += 1;
+
+                coordinates = new int[] { coordinates[0] + xDirection, coordinates[1] + yDirection };
+
+                if (newRow)
+                {
+                    xDirection = 0;
+                    yDirection = 1;
+                }
+            }
+
+            var returnModel = new
+            {
+                Part1Answer = distance1,
+                Part2Answer = array[coordinates[0], coordinates[1]]
+            };
+
+            return this.View["/days/three"].WithModel(returnModel);
         }
     }
 }
