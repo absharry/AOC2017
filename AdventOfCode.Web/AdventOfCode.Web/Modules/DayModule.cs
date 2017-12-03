@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-using Nancy;
-
-using AdventOfCode.Web.Requests;
-using AdventOfCode.Web.Responses;
-using Nancy.ModelBinding;
-using Microsoft.VisualBasic.FileIO;
-using System.IO;
-using System.Text;
-
-namespace AdventOfCode.Web.Modules
+﻿namespace AdventOfCode.Web.Modules
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Nancy;
+    using Nancy.ModelBinding;
+    using AdventOfCode.Web.Requests;
+    using AdventOfCode.Web.Responses;
+
     public class DayModule : NancyModule
     {
         public DayModule() : base("/day/")
