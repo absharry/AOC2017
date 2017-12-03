@@ -89,7 +89,7 @@
 
         private AnswerResponse Day2(string input)
         {
-            var code = this.GetFromTSV(input);
+            var code = input.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Split('\t').Select(y => int.Parse(y)).ToArray()).ToList();
 
             return new AnswerResponse
             {
@@ -222,20 +222,6 @@
                 Answer1 = distance,
                 Answer2 = array[coordinates[0], coordinates[1]]
             };
-        }
-        private List<int[]> GetFromTSV(string tsv)
-        {
-            var stringSplit = tsv.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-            var returnList = new List<int[]>();
-
-            foreach (var row in stringSplit)
-            {
-                var rowSplit = row.Split('\t');
-                var values = rowSplit.Select(x => int.Parse(x)).ToArray();
-                returnList.Add(values);
-            }
-
-            return returnList;
         }
     }    
 }
