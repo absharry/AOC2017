@@ -179,11 +179,6 @@ namespace AdventOfCode.Web.Modules
 
             for (int i = 0; i < 10000; i++)
             {
-                if(array[coordinates[0], coordinates[1]] != 0)
-                {
-                    var somethingsGoneWrong = true;
-                }
-
                 var newRow = false;
                 array[coordinates[0], coordinates[1]] =
                     array[coordinates[0] + 1, coordinates[1]] +
