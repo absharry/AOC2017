@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "_Layout.cshtml";
+}
+
+<h1>Day @Model.Day</h1>
+
+<h2>Please enter todays input</h2>
+<form action="/day/@Model.Day/" method="post">
+    <input type="text" name="input" placeholder="Input"/>
+    <input type="submit" name="name" value="Submit" />
+</form>
