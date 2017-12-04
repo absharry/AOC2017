@@ -34,6 +34,9 @@
                 case 3:
                     responseModel = Day3(input.Input);
                     break;
+                case 4:
+                    responseModel = Day4(input.Input);
+                    break;
                 default:
                     break;
             }
@@ -222,6 +225,69 @@
                 Answer1 = distance,
                 Answer2 = array[coordinates[0], coordinates[1]]
             };
+        }
+
+        private AnswerResponse Day4 (string input)
+        {
+            var code = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var count1 = 0;
+            var count2 = 0;
+
+            foreach (var passphrase in code)
+            {
+                var containsSameWord = false;
+                var containsSameLetters = false;
+                var words = passphrase.Split(' ');
+                foreach (var word in words)
+                {
+                    var containsSameWordList = words.Where(x => x == word).ToList();
+
+                    var containsSameLettersList = words.Where(x => IsAnagram(x,word)).ToList();                    
+
+                    if (containsSameWordList.Count > 1)
+                    {
+                        containsSameWord = true;
+                    }
+
+                    if(containsSameLettersList.Count > 1)
+                    {
+                        containsSameLetters = true;
+                    }
+                }
+                if (containsSameWord)
+                {
+                    count1 += 1;
+                }
+                if (containsSameLetters)
+                {
+                    count2 += 1;
+                }
+            }
+
+            return new AnswerResponse
+            {
+                Answer1 = code.Length - count1,
+                Answer2 = code.Length - count2
+            };
+        }
+
+        private static bool IsAnagram(string s1, string s2)
+        {
+            if (string.IsNullOrEmpty(s1) || string.IsNullOrEmpty(s2))
+                return false;
+            if (s1.Length != s2.Length)
+                return false;
+
+            foreach (char c in s2)
+            {
+                int ix = s1.IndexOf(c);
+                if (ix >= 0)
+                    s1 = s1.Remove(ix, 1);
+                else
+                    return false;
+            }
+
+            return string.IsNullOrEmpty(s1);
         }
     }    
 }
