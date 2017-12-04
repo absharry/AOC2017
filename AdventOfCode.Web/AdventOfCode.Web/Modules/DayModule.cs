@@ -234,26 +234,19 @@
             var count2 = 0;
 
             foreach (var passphrase in code)
-            {
+            {                
+                var words = passphrase.Split(' ');
+
                 var containsSameWord = false;
                 var containsSameLetters = false;
-                var words = passphrase.Split(' ');
+
                 foreach (var word in words)
                 {
-                    var containsSameWordList = words.Where(x => x == word).ToList();
+                    containsSameWord = words.Where(x => x == word).ToList().Count > 1;
 
-                    var containsSameLettersList = words.Where(x => IsAnagram(x,word)).ToList();                    
-
-                    if (containsSameWordList.Count > 1)
-                    {
-                        containsSameWord = true;
-                    }
-
-                    if(containsSameLettersList.Count > 1)
-                    {
-                        containsSameLetters = true;
-                    }
+                    containsSameLetters = words.Where(x => IsAnagram(x, word)).ToList().Count > 1;
                 }
+
                 if (containsSameWord)
                 {
                     count1 += 1;
