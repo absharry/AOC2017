@@ -264,23 +264,27 @@
             };
         }
 
-        private static bool IsAnagram(string s1, string s2)
+        private static bool IsAnagram(string word1, string word2)
         {
-            if (string.IsNullOrEmpty(s1) || string.IsNullOrEmpty(s2))
-                return false;
-            if (s1.Length != s2.Length)
-                return false;
-
-            foreach (char c in s2)
+            if (word1.Length != word2.Length)
             {
-                int ix = s1.IndexOf(c);
-                if (ix >= 0)
-                    s1 = s1.Remove(ix, 1);
+                return false;
+            }               
+
+            foreach (char letter in word2)
+            {
+                int index = word1.IndexOf(letter);
+                if (index >= 0)
+                {
+                    word1 = word1.Remove(letter, 1);
+                }
                 else
+                {
                     return false;
+                }                    
             }
 
-            return string.IsNullOrEmpty(s1);
+            return string.IsNullOrEmpty(word1);
         }
     }    
 }
