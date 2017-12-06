@@ -37,6 +37,12 @@
                 case 4:
                     responseModel = Day4(input.Input);
                     break;
+                case 5:
+                    responseModel = Day5(input.Input);
+                    break;
+                case 6:
+                    responseModel = Day6(input.Input);
+                    break;
                 default:
                     break;
             }
@@ -261,6 +267,134 @@
             {
                 Answer1 = code.Length - count1,
                 Answer2 = code.Length - count2
+            };
+        }
+
+        private AnswerResponse Day5(string input)
+        {
+            var code = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToArray();
+            var exit = false;
+            var currentPosition = 0;
+            var count1 = 0;
+
+            while (!exit)
+            {
+                if (currentPosition > code.Length - 1)
+                {
+                    exit = true;
+                    break;
+                }
+
+                var currentInstruction = code[currentPosition];                
+
+                code[currentPosition] += 1;
+                count1 += 1;
+
+                currentPosition += currentInstruction;                
+            }
+
+            exit = false;
+            currentPosition = 0;
+            var count2 = 0;
+            code = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToArray();
+
+            while (!exit)
+            {
+                if (currentPosition > code.Length - 1)
+                {
+                    exit = true;
+                    break;
+                }
+
+                var currentInstruction = code[currentPosition];
+
+                code[currentPosition] += currentInstruction >= 3 ? -1 : 1;
+                count2 += 1;
+
+                currentPosition += currentInstruction;
+            }
+
+            return new AnswerResponse
+            {
+                Answer1 = count1,
+                Answer2 = count2
+            };
+        }
+
+        private AnswerResponse Day6 (string input)
+        {
+            var code = input.Split('\t').Select(int.Parse).ToArray();
+            var list = new List<int[]>();
+            var loopSize = 0;
+            list.Add(code);
+            var exit = false;
+
+            while (!exit)
+            {
+                var temp = new int[code.Length];
+                list.Last().CopyTo(temp, 0);
+                var value = temp.Max();
+                var indices = temp.Select((number, index) => number == value ? index : -1).Where(index => index != -1).FirstOrDefault();
+                temp[indices] = 0;
+
+                for (int i = indices + 1; i < value + indices + 1; i++)
+                {
+                    var currentIndex = i > temp.Length - 1 ? i - temp.Length : i;
+                    temp[currentIndex]++;
+                }
+
+                if (list.Count(x => 
+                x[0] == temp[0] && 
+                x[1] == temp[1] &&
+                x[2] == temp[2] &&
+                x[3] == temp[3] &&
+                x[4] == temp[4] &&
+                x[5] == temp[5] &&
+                x[6] == temp[6] &&
+                x[7] == temp[7] &&
+                x[8] == temp[8] &&
+                x[9] == temp[9] &&
+                x[10] == temp[10] &&
+                x[11] == temp[11] &&
+                x[12] == temp[12] &&
+                x[13] == temp[13] &&
+                x[14] == temp[14] &&
+                x[15] == temp[15]) > 0)
+                {
+                    var matchingArray = list.Where(x =>
+                x[0] == temp[0] &&
+                x[1] == temp[1] &&
+                x[2] == temp[2] &&
+                x[3] == temp[3] &&
+                x[4] == temp[4] &&
+                x[5] == temp[5] &&
+                x[6] == temp[6] &&
+                x[7] == temp[7] &&
+                x[8] == temp[8] &&
+                x[9] == temp[9] &&
+                x[10] == temp[10] &&
+                x[11] == temp[11] &&
+                x[12] == temp[12] &&
+                x[13] == temp[13] &&
+                x[14] == temp[14] &&
+                x[15] == temp[15]).First();
+
+                    var index = list.IndexOf(matchingArray);
+                    loopSize = list.Count() - index;
+
+                    exit = true;
+                    break;
+                }
+                else
+                {
+                    list.Add(temp);
+                }
+            }
+
+            return new AnswerResponse
+            {
+                Answer1 = list.Count(),
+                Answer2 = loopSize
             };
         }
 
