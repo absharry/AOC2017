@@ -50,6 +50,60 @@
                 case 7:
                     responseModel = Day7(input.Input);
                     break;
+                case 8:
+                    responseModel = Day8(input.Input);
+                    break;
+                case 9:
+                    responseModel = Day9(input.Input);
+                    break;
+                case 10:
+                    responseModel = Day10(input.Input);
+                    break;
+                case 11:
+                    responseModel = Day11(input.Input);
+                    break;
+                case 12:
+                    responseModel = Day12(input.Input);
+                    break;
+                case 13:
+                    responseModel = Day13(input.Input);
+                    break;
+                case 14:
+                    responseModel = Day14(input.Input);
+                    break;
+                case 15:
+                    responseModel = Day15(input.Input);
+                    break;
+                case 16:
+                    responseModel = Day16(input.Input);
+                    break;
+                case 17:
+                    responseModel = Day17(input.Input);
+                    break;
+                case 18:
+                    responseModel = Day18(input.Input);
+                    break;
+                case 19:
+                    responseModel = Day19(input.Input);
+                    break;
+                case 20:
+                    responseModel = Day20(input.Input);
+                    break;
+                case 21:
+                    responseModel = Day21(input.Input);
+                    break;
+                case 22:
+                    responseModel = Day22(input.Input);
+                    break;
+                case 23:
+                    responseModel = Day23(input.Input);
+                    break;
+                case 24:
+                    responseModel = Day24(input.Input);
+                    break;
+                case 25:
+                    responseModel = Day25(input.Input);
+                    break;
                 default:
                     break;
             }
@@ -471,6 +525,151 @@
             {
                 Answer1 = bottomNode,
                 Answer2 = weight2.ToString()
+            };
+        }
+
+        public AnswerResponse Day8(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day9(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day10(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day11(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day12(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day13(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day14(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day15(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day16(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day17(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day18(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day19(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day20(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day21(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day22(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day23(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day24(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
+            };
+        }
+        public AnswerResponse Day25(string input)
+        {
+            return new AnswerResponse
+            {
+                Answer1 = string.Empty,
+                Answer2 = string.Empty
             };
         }
 
