@@ -9,6 +9,7 @@
     using AdventOfCode.Web.Requests;
     using AdventOfCode.Web.Responses;
     using AdventOfCode.Web.Model;
+    using System.Diagnostics;
 
     public class DayModule : NancyModule
     {
@@ -22,8 +23,10 @@
         {
             var input = this.Bind<InputRequest>();
             var day = int.Parse(arg.day);
-            var responseModel = new AnswerResponse();            
+            var responseModel = new AnswerResponse();
 
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
             switch (day)
             {
                 case 1:
@@ -50,8 +53,9 @@
                 default:
                     break;
             }
-
+            stopWatch.Stop();
             responseModel.Day = day;
+            responseModel.TimeTaken = stopWatch.Elapsed.TotalSeconds;
 
             return this.View["DayOutput"].WithModel(responseModel);
         }
