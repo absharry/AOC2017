@@ -8,6 +8,7 @@
     using Nancy.ModelBinding;
     using AdventOfCode.Web.Requests;
     using AdventOfCode.Web.Responses;
+    using AdventOfCode.Web.Model;
 
     public class DayModule : NancyModule
     {
@@ -42,6 +43,9 @@
                     break;
                 case 6:
                     responseModel = Day6(input.Input);
+                    break;
+                case 7:
+                    responseModel = Day7(input.Input);
                     break;
                 default:
                     break;
@@ -398,6 +402,64 @@
             };
         }
 
+        private AnswerResponse Day7(string input)
+        {
+            var code = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+            var parentNodes = new List<TreeNode>();
+
+            foreach (var item in code)
+            {
+                var split = item.Split(new string[] { "->" }, StringSplitOptions.RemoveEmptyEntries);
+
+                var nameWeight = split[0].Split(' ');
+                var name = nameWeight[0];
+                var weight = nameWeight[1].Replace("(", string.Empty).Replace(")", string.Empty);
+                var node = new TreeNode(name, int.Parse(weight));
+
+                if (split.Length > 1)
+                {
+                    var children = split[1].Split(',');
+                    node.Children = children.Select(x => x.Trim()).ToArray();
+                }
+
+                parentNodes.Add(node);
+            }
+
+            var weight2 = 0;
+
+            foreach (var node in parentNodes)
+            {
+                if(node.Children != null)
+                {
+                    var incorrectChild = this.GetIncorrectChild(parentNodes, node.Name);
+
+                    if (incorrectChild != node.Name)
+                    {
+                        var parent = parentNodes.Where(x => x.Children != null && x.Children.Contains(incorrectChild)).First();
+                        var children = parentNodes.Where(x => parent.Children.Contains(x.Name)).ToArray();
+                        var incorrect = children.Where(x => x.Name == incorrectChild).First();
+                        var correct = children.Where(x => x.Name != incorrectChild).First();
+                        var childrenWeight = new int[children.Count()];
+
+                        for (int i = 0; i < childrenWeight.Length; i++)
+                        {
+                            childrenWeight[i] = this.GetChildrensWeight(parentNodes, children[i].Name);
+                        }
+
+                        var weightDifference = Array.IndexOf(children, correct) - Array.IndexOf(children, incorrect);
+                        weight2 = incorrect.Weight + weightDifference;
+                    }
+                }                
+            }
+
+            return new AnswerResponse
+            {
+                Answer1 = 0,
+                Answer2 = weight2
+            };
+        }
+
         private static bool IsAnagram(string word1, string word2)
         {
             if (word1.Length != word2.Length)
@@ -419,6 +481,44 @@
             }
 
             return string.IsNullOrEmpty(word1);
+        }
+
+        private int GetChildrensWeight(List<TreeNode> treeNodes, string parent)
+        {
+            var parentNode = treeNodes.Where(x => x.Name == parent).First();
+
+            var weight = parentNode.Weight;
+
+            if (parentNode.Children != null)
+            {
+                foreach (var child in parentNode.Children)
+                {
+                    weight += GetChildrensWeight(treeNodes, child);
+                }
+            }
+
+            return weight;
+        }
+
+        private string GetIncorrectChild(List<TreeNode> treeNodes, string parent)
+        {
+            var parentNode = treeNodes.Where(x => x.Name == parent).First();  
+
+            var weight = new int[parentNode.Children.Length];
+            for (int i = 0; i < weight.Length; i++)
+            {
+                weight[i] = this.GetChildrensWeight(treeNodes, parentNode.Children[i]);                    
+            }
+
+            for (int i = 0; i < weight.Length; i++)
+            {
+                if(weight.Count(x => x == weight[i]) == 1)
+                {
+                    return GetIncorrectChild(treeNodes, parentNode.Children[i]);
+                }
+            }
+
+            return parent;
         }
     }    
 }

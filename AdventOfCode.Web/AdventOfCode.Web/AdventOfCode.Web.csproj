@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Model\TreeNode.cs" />
     <Compile Include="Modules\DayModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\InputRequest.cs" />
