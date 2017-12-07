@@ -95,8 +95,8 @@
 
             return new AnswerResponse
             {
-                Answer1 = count1,
-                Answer2 = count2
+                Answer1 = count1.ToString(),
+                Answer2 = count2.ToString()
             };
         }
 
@@ -106,8 +106,8 @@
 
             return new AnswerResponse
             {
-                Answer1 = code.Sum(x => x.Max() - x.Min()),
-                Answer2 = code.Sum(array => array.Sum(item => array.Where(x => item != x && item % x == 0).Select(x => item / x).FirstOrDefault()))
+                Answer1 = code.Sum(x => x.Max() - x.Min()).ToString(),
+                Answer2 = code.Sum(array => array.Sum(item => array.Where(x => item != x && item % x == 0).Select(x => item / x).FirstOrDefault())).ToString()
             };
         }
 
@@ -232,8 +232,8 @@
 
             return new AnswerResponse
             {
-                Answer1 = distance,
-                Answer2 = array[coordinates[0], coordinates[1]]
+                Answer1 = distance.ToString(),
+                Answer2 = array[coordinates[0], coordinates[1]].ToString()
             };
         }
 
@@ -269,8 +269,8 @@
 
             return new AnswerResponse
             {
-                Answer1 = code.Length - count1,
-                Answer2 = code.Length - count2
+                Answer1 = (code.Length - count1).ToString(),
+                Answer2 = (code.Length - count2).ToString()
             };
         }
 
@@ -320,8 +320,8 @@
 
             return new AnswerResponse
             {
-                Answer1 = count1,
-                Answer2 = count2
+                Answer1 = count1.ToString(),
+                Answer2 = count2.ToString()
             };
         }
 
@@ -397,8 +397,8 @@
 
             return new AnswerResponse
             {
-                Answer1 = list.Count(),
-                Answer2 = loopSize
+                Answer1 = list.Count().ToString(),
+                Answer2 = loopSize.ToString()
             };
         }
 
@@ -426,6 +426,16 @@
                 parentNodes.Add(node);
             }
 
+            var bottomNode = string.Empty;
+
+            foreach (var node in parentNodes.Where(x => x.Children != null))
+            {
+                if(parentNodes.Count(x => x.Children != null && x.Children.Contains(node.Name)) == 0)
+                {
+                    bottomNode = node.Name;
+                }
+            }
+
             var weight2 = 0;
 
             foreach (var node in parentNodes)
@@ -447,7 +457,7 @@
                             childrenWeight[i] = this.GetChildrensWeight(parentNodes, children[i].Name);
                         }
 
-                        var weightDifference = Array.IndexOf(children, correct) - Array.IndexOf(children, incorrect);
+                        var weightDifference = childrenWeight[Array.IndexOf(children, correct)] - childrenWeight[Array.IndexOf(children, incorrect)];
                         weight2 = incorrect.Weight + weightDifference;
                     }
                 }                
@@ -455,8 +465,8 @@
 
             return new AnswerResponse
             {
-                Answer1 = 0,
-                Answer2 = weight2
+                Answer1 = bottomNode,
+                Answer2 = weight2.ToString()
             };
         }
 
