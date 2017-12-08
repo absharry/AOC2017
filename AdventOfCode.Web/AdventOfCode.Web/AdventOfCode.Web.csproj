@@ -113,6 +113,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Model\Condition.cs" />
+    <Compile Include="Model\Instruction.cs" />
     <Compile Include="Model\TreeNode.cs" />
     <Compile Include="Modules\DayModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

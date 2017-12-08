@@ -530,10 +530,48 @@
 
         public AnswerResponse Day8(string input)
         {
+            var code = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var instructions = new List<Instruction>();
+
+            foreach (var line in code)
+            {
+                var instructionsString = line.Split(' ');
+
+                var instruction = new Instruction()
+                {
+                    Register = instructionsString[0],
+                    IsIncrease = instructionsString[1] == "inc",
+                    ChangeValue = int.Parse(instructionsString[2]),
+                    Condition = new Condition()
+                    {
+                        Register = instructionsString[4],
+                        Operator = instructionsString[5],
+                        Value = int.Parse(instructionsString[6])
+                    }
+                };
+
+                instructions.Add(instruction);
+            }
+
+            var registers = new int[(long)Math.Pow(26, instructions.Max(x => x.Register.Length))];
+            var max = 0;
+
+            foreach (var instruction in instructions)
+            {
+                if(this.TestCondition(registers, instruction.Condition))
+                {
+                    registers[this.GetIndexOfRegister(instruction.Register)] = instruction.IsIncrease ? registers[this.GetIndexOfRegister(instruction.Register)] + instruction.ChangeValue : registers[this.GetIndexOfRegister(instruction.Register)] - instruction.ChangeValue;
+                    if (registers[this.GetIndexOfRegister(instruction.Register)] > max)
+                    {
+                        max = registers[this.GetIndexOfRegister(instruction.Register)];
+                    }
+                }
+            }
+
             return new AnswerResponse
             {
-                Answer1 = string.Empty,
-                Answer2 = string.Empty
+                Answer1 = registers.Max().ToString(),
+                Answer2 = max.ToString()
             };
         }
         public AnswerResponse Day9(string input)
@@ -732,6 +770,47 @@
             }
 
             return parent;
+        }
+
+        private bool TestCondition(int[] registers, Condition condition)
+        {
+            var index = this.GetIndexOfRegister(condition.Register);
+            switch (condition.Operator)
+            {
+                case "<":
+                    return registers[index] < condition.Value;
+                case ">":
+                    return registers[index] > condition.Value;
+                case "==":
+                    return registers[index] == condition.Value;
+                case "!=":
+                    return registers[index] != condition.Value;
+                case ">=":
+                    return registers[index] >= condition.Value;
+                case "<=":
+                    return registers[index] <= condition.Value;
+                default:
+                    return false;
+            }
+        }
+
+        private int GetIndexOfRegister(string register)
+        {
+            var index = 0;
+
+            for (int i = 0; i < register.Length; i++)
+            {
+                if (i < register.Length - 1)
+                {
+                    index += ((char.ToUpper(register[i]) - 64) * 26) - 1; // If it's a and it's returning 0, multiplying by 26 isn't going to do anything
+                }
+                else
+                {
+                    index += char.ToUpper(register[i]) - 65;
+                }
+            }
+
+            return index;
         }
     }    
 }
